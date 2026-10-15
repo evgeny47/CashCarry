@@ -1,0 +1,24 @@
+# Сборка .NET
+bin/
+obj/
+artifacts/
+TestResults/
+*.user
+*.suo
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# Данные и логи робота (позиции, журнал сделок)
+data/
+logs/
+*.db
+*.db-shm
+*.db-wal
+
+# Переписка — сохраняется автоматически, в репозиторий не попадает
+docs/переписка.md
+docs/переписка.md.tmp
+docs/переписка/
