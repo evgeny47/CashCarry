@@ -10,7 +10,9 @@ Cash-and-carry для Финам: лонг акции + шорт фьючерс�
 | `CashCarry.Risk` | `PairExecutor` (исполнение с контролем ноги), `MarginGuard`, `HedgeMonitor`, `KillSwitch`, `TradingSchedule` | готов |
 | `CashCarry.Broker.Finam` | gRPC Finam Trade API: JWT по секрету, заявки, счёт, котировки, диагностика | готов, не проверен на реальном счёте |
 | `CashCarry.Broker.Paper` | Симулятор: лимитные заявки, объём стакана, ГО, ВМ, клиринг, инъекция отказов | готов |
-| `CashCarry.Host` | Главный цикл по парам (`Pairs`), настройки, Serilog, SQLite, симулятор цен для Paper | готов (режим Paper) |
+| `CashCarry.Engine` | Движок робота: главный цикл по парам (`RobotWorker`), настройки, SQLite, источники цен для Paper | готов |
+| `CashCarry.Host` | Запуск робота: конфигурация, Serilog, команды `--finam-check`, `--find-symbols`, `--reset-kill-switch` | готов (режим Paper) |
+| `CashCarry.Backtest` | Тестер: загрузка свечей Финам в SQLite и прогон того же `RobotWorker` на истории | готов |
 
 ## Модель
 
@@ -75,6 +77,22 @@ dotnet run --project src/CashCarry.Host --launch-profile Production
 (сначала выходы и переносы, затем входы по убыванию доходности) → запись в базу. Ошибка одной пары не
 останавливает остальные. Позиции хранятся по имени пары; старая база одиночной пары переносится при запуске.
 При смене дня начисляются дивиденды, у которых прошёл последний день покупки.
+
+## Тестер на истории
+
+`CashCarry.Backtest` прогоняет **тот же** `RobotWorker` (стратегия, исполнитель, ГО, лимит капитала) на свечах:
+котировки подаёт `HistoricalFeed` (цена известна только после закрытия свечи, спред достраивается к close),
+брокер — `PaperBroker`, время — `BacktestClock`. Тик — закрытие каждой свечи любого инструмента.
+
+```bash
+dotnet run --project src/CashCarry.Backtest -- download --from 2026-07-01 --pairs all
+dotnet run --project src/CashCarry.Backtest -- run --from 2026-07-01 --pairs SBER
+```
+
+- Пары, стратегия, комиссии, риск — из `src/CashCarry.Host/appsettings.json`; свои настройки — `src/CashCarry.Backtest/backtest.json`.
+- Свечи: `src/CashCarry.Backtest/bin/Debug/net8.0/data/history.db`, отчёты прогонов: `.../data/backtest/<время>/`.
+- Истёкшие квартальные серии дописываются автоматически (третий четверг, ГО ближайшей настроенной серии).
+- Тестер не ссылается на `CashCarry.Host`, поэтому собирается, пока робот запущен.
 
 ## Тесты
 

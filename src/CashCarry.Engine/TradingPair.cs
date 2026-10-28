@@ -6,7 +6,7 @@ using CashCarry.Core.Strategy;
 using CashCarry.Risk;
 using CashCarry.Risk.Execution;
 
-namespace CashCarry.Host;
+namespace CashCarry.Engine;
 
 /// <summary>
 /// Пара в работе: настройки, стратегия, исполнитель, сверка хеджа и текущая позиция.

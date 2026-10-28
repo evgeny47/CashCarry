@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
@@ -17,13 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="CashCarry.Host.Tests" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CashCarry.Core\CashCarry.Core.csproj" />
-    <ProjectReference Include="..\CashCarry.Risk\CashCarry.Risk.csproj" />
-    <ProjectReference Include="..\CashCarry.Broker.Finam\CashCarry.Broker.Finam.csproj" />
-    <ProjectReference Include="..\CashCarry.Broker.Paper\CashCarry.Broker.Paper.csproj" />
+    <ProjectReference Include="..\CashCarry.Engine\CashCarry.Engine.csproj" />
   </ItemGroup>
 </Project>

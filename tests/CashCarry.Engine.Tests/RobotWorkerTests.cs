@@ -1,12 +1,12 @@
 using CashCarry.Broker.Paper;
 using CashCarry.Core.Market;
 using CashCarry.Core.Strategy;
-using CashCarry.Host.Market;
+using CashCarry.Engine.Market;
 using CashCarry.Risk;
 using CashCarry.Risk.Execution;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace CashCarry.Host.Tests;
+namespace CashCarry.Engine.Tests;
 
 public sealed class RobotWorkerTests : IDisposable
 {
@@ -136,6 +136,20 @@ public sealed class RobotWorkerTests : IDisposable
         await worker.TickAsync(CancellationToken.None);
 
         Assert.Equal(2, pairs[0].Position?.Units); // 3 × 38,1 тыс. не влезает в 80 тыс., 2 — влезает
+    }
+
+    [Fact]
+    public async Task Missing_next_contract_quote_does_not_block_entry()
+    {
+        var sber = Pair("SBER", "SRZ6", 5000m);
+        sber.Futures.Add(new FuturesSettings { Symbol = "SRH7", LastTradingDay = new DateOnly(2027, 3, 18), InitialMargin = 6000m });
+        var broker = Broker(40_000m, [sber]); // котировки SRH7 нет: по серии ещё не было сделок
+        var (worker, pairs, _) = Worker(broker, sber);
+
+        await worker.TickAsync(CancellationToken.None);
+
+        Assert.Equal(1, pairs[0].Position?.Units);
+        Assert.Equal(0, pairs[0].ConsecutiveErrors);
     }
 
     [Fact]

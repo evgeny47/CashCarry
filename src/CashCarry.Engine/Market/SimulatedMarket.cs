@@ -3,7 +3,7 @@ using CashCarry.Core.Market;
 using CashCarry.Risk;
 using Microsoft.Extensions.Logging;
 
-namespace CashCarry.Host.Market;
+namespace CashCarry.Engine.Market;
 
 /// <summary>
 /// Синтетический рынок для Paper, своя цена у каждой пары. Акция — случайное блуждание; фьючерс — справедливая цена

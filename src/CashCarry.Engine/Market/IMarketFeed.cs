@@ -1,4 +1,4 @@
-namespace CashCarry.Host.Market;
+namespace CashCarry.Engine.Market;
 
 /// <summary>
 /// Обновляет котировки у брокера перед каждым тиком робота.

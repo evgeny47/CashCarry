@@ -3,7 +3,7 @@ using CashCarry.Core.Instruments;
 using CashCarry.Core.Positions;
 using Microsoft.Data.Sqlite;
 
-namespace CashCarry.Host.Tests;
+namespace CashCarry.Engine.Tests;
 
 public sealed class RobotStoreTests : IDisposable
 {

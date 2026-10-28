@@ -3,7 +3,7 @@ using CashCarry.Broker.Paper;
 using CashCarry.Risk;
 using Grpc.Core;
 
-namespace CashCarry.Host.Market;
+namespace CashCarry.Engine.Market;
 
 /// <summary>
 /// Paper-счёт на живых ценах: перед каждым тиком берёт котировки Финам и передаёт их симулятору.

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Microsoft.Extensions.Configuration" />
+    <Using Include="Microsoft.Extensions.Hosting" />
+    <Using Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CashCarry.Engine.Tests" />
+    <InternalsVisibleTo Include="CashCarry.Backtest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CashCarry.Core\CashCarry.Core.csproj" />
+    <ProjectReference Include="..\CashCarry.Risk\CashCarry.Risk.csproj" />
+    <ProjectReference Include="..\CashCarry.Broker.Finam\CashCarry.Broker.Finam.csproj" />
+    <ProjectReference Include="..\CashCarry.Broker.Paper\CashCarry.Broker.Paper.csproj" />
+  </ItemGroup>
+</Project>

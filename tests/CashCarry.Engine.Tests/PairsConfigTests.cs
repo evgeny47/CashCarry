@@ -2,7 +2,7 @@ using System.Text;
 using CashCarry.Core.Strategy;
 using Microsoft.Extensions.Configuration;
 
-namespace CashCarry.Host.Tests;
+namespace CashCarry.Engine.Tests;
 
 public class PairsConfigTests
 {

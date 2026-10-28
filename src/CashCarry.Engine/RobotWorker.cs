@@ -3,11 +3,11 @@ using CashCarry.Core.Broker;
 using CashCarry.Core.Market;
 using CashCarry.Core.Positions;
 using CashCarry.Core.Strategy;
-using CashCarry.Host.Market;
+using CashCarry.Engine.Market;
 using CashCarry.Risk;
 using CashCarry.Risk.Execution;
 
-namespace CashCarry.Host;
+namespace CashCarry.Engine;
 
 /// <summary>
 /// Главный цикл. Каждый тик: котировки → по каждой паре сверка хеджа и решение стратегии → общая проверка ГО →
@@ -165,7 +165,20 @@ public sealed class RobotWorker(
         var (nearSettings, nextSettings) = contracts.Value;
 
         var near = await FuturesMarketAsync(nearSettings, ct);
-        var next = nextSettings is null ? null : await FuturesMarketAsync(nextSettings, ct);
+        FuturesMarket? next = null;
+        if (nextSettings is not null)
+        {
+            // Следующая серия нужна только для переноса и часто неликвидна: без её котировки пара работает дальше,
+            // перенос просто откладывается до появления цены.
+            try
+            {
+                next = await FuturesMarketAsync(nextSettings, ct);
+            }
+            catch (InvalidOperationException ex)
+            {
+                log.LogDebug("Pair {Pair}: no quote for next contract {Contract}: {Message}", pair.Name, nextSettings.Symbol, ex.Message);
+            }
+        }
         var stock = await broker.GetQuoteAsync(pair.Spec.Stock.Symbol, ct);
         var snapshot = new MarketSnapshot(today, stock, near, next, account.FreeCash, pair.Dividends);
 

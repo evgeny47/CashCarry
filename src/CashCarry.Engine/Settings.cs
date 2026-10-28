@@ -2,7 +2,7 @@ using CashCarry.Core.Instruments;
 using CashCarry.Core.Market;
 using CashCarry.Core.Strategy;
 
-namespace CashCarry.Host;
+namespace CashCarry.Engine;
 
 public enum BrokerMode { Paper, Finam }
 

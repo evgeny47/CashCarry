@@ -2,8 +2,8 @@ using CashCarry.Broker.Finam;
 using CashCarry.Broker.Paper;
 using CashCarry.Core.Broker;
 using CashCarry.Core.Strategy;
-using CashCarry.Host;
-using CashCarry.Host.Market;
+using CashCarry.Engine;
+using CashCarry.Engine.Market;
 using CashCarry.Risk;
 using CashCarry.Risk.Execution;
 using Serilog;
@@ -30,7 +30,7 @@ var builder = Host.CreateApplicationBuilder(new HostApplicationBuilderSettings
     ContentRootPath = AppContext.BaseDirectory,
 });
 // Секрет Финам хранится в user-secrets; по умолчанию они читаются только в Development — подключаем всегда.
-builder.Configuration.AddUserSecrets(typeof(RobotWorker).Assembly, optional: true);
+builder.Configuration.AddUserSecrets(typeof(Program).Assembly, optional: true);
 var config = builder.Configuration;
 
 T Bind<T>(string section) where T : new() => config.GetSection(section).Get<T>() ?? new T();

@@ -1,7 +1,7 @@
 using CashCarry.Risk;
 using CashCarry.Broker.Finam;
 
-namespace CashCarry.Host;
+namespace CashCarry.Engine;
 
 /// <summary>
 /// Перед торговлей сверяет настройки с данными Финам. Расхождение в лотности или размере контракта

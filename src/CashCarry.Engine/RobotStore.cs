@@ -4,7 +4,7 @@ using CashCarry.Core.Positions;
 using CashCarry.Risk.Execution;
 using Microsoft.Data.Sqlite;
 
-namespace CashCarry.Host;
+namespace CashCarry.Engine;
 
 /// <summary>
 /// Состояние робота в SQLite: позиции по парам, kill switch, последняя обработанная дата (для дивидендов),
