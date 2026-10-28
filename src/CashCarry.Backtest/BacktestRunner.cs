@@ -144,6 +144,10 @@ public static class BacktestRunner
             daily[^1] = daily[^1] with { Equity = equity, CapitalInUse = capital };
         }
 
+        // Итог — по самым последним ценам (после торгового окна свечи ещё идут), как и результат по парам.
+        equity = Equity(await paper.GetAccountAsync(ct), lotSizes, feed);
+        if (daily.Count > 0)
+            daily[^1] = daily[^1] with { Equity = equity };
         var results = pairs.Select(p => PairPnl(p, broker.Fills, feed)).ToList();
         return new BacktestResult(timeline[0], timeline[^1], timeline.Count, tradingTicks, warmupTicks, warmupSymbols.ToList(),
             settings.InitialCash, equity, maxDrawdown, maxDrawdownPercent, maxCapital,
